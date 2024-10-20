@@ -1,35 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import Inventory from './pages/Inventory';
+import AddClothing from './pages/AddClothing';
+import Sales from './pages/Sales';
+import SaleDetail from './pages/SaleDetail';
+import PrivateRoute from './components/PrivateRoute'; // Ruta privada si ya tienes autenticación
+import { AuthProvider } from './context/AuthContext'; // Si ya tienes el contexto de autenticación
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <AuthProvider> {/* Solo si tienes autenticación global */}
+        <Routes>
+          {/* Ruta para Login */}
+          <Route path="/login" element={<Login />} />
 
-export default App
+          {/* Rutas para el Inventario */}
+          <Route path="/inventory" element={<PrivateRoute><Inventory /></PrivateRoute>} /> {/* Protegida */}
+
+          {/* Ruta para agregar una nueva prenda */}
+          <Route path="/add-clothing" element={<PrivateRoute><AddClothing /></PrivateRoute>} /> {/* Protegida */}
+
+          {/* Rutas para las ventas */}
+          <Route path="/sales" element={<PrivateRoute><Sales /></PrivateRoute>} /> {/* Protegida */}
+          <Route path="/sales/:id" element={<PrivateRoute><SaleDetail /></PrivateRoute>} /> {/* Protegida */}
+
+          {/* Otras rutas... */}
+        </Routes>
+      </AuthProvider>
+    </Router>
+  );
+};
+
+export default App;
