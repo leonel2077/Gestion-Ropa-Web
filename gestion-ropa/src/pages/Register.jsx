@@ -12,7 +12,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/users', { name, email, password });
+      await api.post('/users/register', { name, email, password });
       alert('Registro exitoso');
       navigate('/'); // Redirige al login después de registrarse
     } catch (error) {
