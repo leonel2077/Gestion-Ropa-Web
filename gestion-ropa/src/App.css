@@ -1,42 +1,113 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f4f8;  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  max-width: 400px;
+  width: 100%;
+  background-color: white;
+  padding: 2.5rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); 
+  border-radius: 20px; 
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+h1 {
+  font-size: 2.2rem; 
+  color: #333;
+  margin-bottom: 2rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+label {
+  font-size: 1rem;
+  color: #666;
+  text-align: left;
+  margin-bottom: 0.5rem; /* Añadimos margen abajo de la etiqueta */
+}
+
+input {
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #f9f9f9;
+  color: #333; /* Cambia el color del texto a un gris oscuro */
+}
+
+input::placeholder {
+  color: #aaa; /* Color para el texto del placeholder */
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  background-color: white;
+}
+
+button {
+  padding: 1rem;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 10px; 
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);  
+}
+
+.secondary-button {
+  background-color: transparent;
+  color: #007bff;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.secondary-button:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: -0.5rem;
+}
+
+/* Para pantallas más pequeñas */
+@media (max-width: 500px) {
+  .container {
+    padding: 1.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  h1 {
+    font-size: 1.8rem;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  input, button {
+    font-size: 0.9rem;
+    padding: 0.8rem;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

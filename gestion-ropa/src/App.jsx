@@ -1,65 +1,43 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import InventoryManagement from './components/InventoryManagement.jsx';
 import SalesPage from './components/SalesPage.jsx';
 import SalesManagement from './components/SalesManagement.jsx';
-import Register from './components/Register.jsx';
+import Register from './pages/Register.jsx';  // Importamos el registro
+import Login from './pages/Login.jsx';        // Importamos el login
+import Home from './pages/Home';              // Nueva página Home
 
 function App() {
-  const [isAdmin, setIsAdmin] = useState(true); // Puedes cambiar esto según el rol del usuario
-  const [userId, setUserId] = useState(1); // Este valor debe establecerse según el usuario conectado
-  const [activeTab, setActiveTab] = useState('inventory'); // Pestaña activa
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Controla si el usuario está logueado
 
-  const renderActiveTab = () => {
-    switch(activeTab) {
-      case 'inventory':
-        return <InventoryManagement isAdmin={isAdmin} />;
-      case 'sales':
-        return <SalesPage />;
-      case 'salesManagement':
-        return <SalesManagement isAdmin={isAdmin} userId={userId} />;
-      case 'register':  // Nueva pestaña para el registro
-        return <Register />;
-      default:
-        return null;
-    }
-  }
+  const handleLogin = (token) => {
+    // Simula un login guardando un token, aquí podrías usar localStorage o context
+    setIsAuthenticated(true);
+    localStorage.setItem('token', token); // Aquí guardamos el token en localStorage
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('token'); // Removemos el token en logout
+  };
 
   return (
-    <>
-      <h1>Sistema de Gestión y Ventas de Ropa</h1>
-      <div className="container mx-auto p-4">
-        <div className="tabs">
-          <button 
-            className={`tab ${activeTab === 'inventory' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('inventory')}
-          >
-            Inventario
-          </button>
-          <button 
-            className={`tab ${activeTab === 'sales' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('sales')}
-          >
-            Ventas
-          </button>
-          <button 
-            className={`tab ${activeTab === 'salesManagement' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('salesManagement')}
-          >
-            Gestión de Ventas
-          </button>
-          <button 
-            className={`tab ${activeTab === 'register' ? 'active' : ''}`} 
-            onClick={() => setActiveTab('register')}
-          >
-            Registro
-          </button>
-        </div>
-        <div className="tab-content">
-          {renderActiveTab()}
-        </div>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        {/* Si no está autenticado, redirige siempre al login */}
+        <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Login onLogin={handleLogin} />} />
+        
+        {/* Ruta para registrarse */}
+        <Route path="/register" element={<Register />} />
+        
+        {/* Ruta protegida para la home, solo accesible si estás logueado */}
+        <Route path="/home" element={isAuthenticated ? <Home onLogout={handleLogout} /> : <Navigate to="/" />} />
+        
+        {/* Si intentas acceder a una ruta inexistente, te redirige al login */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
   );
 }
 

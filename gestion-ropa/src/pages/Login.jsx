@@ -1,30 +1,32 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
+import api from '../api';  // Aquí haces las llamadas a la API
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { login } = useContext(AuthContext); // Obtener la función login del contexto
-  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Usado para redirigir
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password); // Intentar iniciar sesión
-    } catch (err) {
-      setError('Correo o contraseña incorrectos');
+      const response = await api.post('/users/login', { email, password });
+      if (response.data.token) {
+        onLogin(response.data.token); // Guarda el token al loguear correctamente
+        navigate('/home');  // Redirige a la página Home
+      }
+    } catch (error) {
+      setErrorMessage('Credenciales incorrectas');
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Iniciar Sesión</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className="container">
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Correo</label>
+          <label>Email</label>
           <input
             type="email"
             value={email}
@@ -33,7 +35,7 @@ const Login = () => {
           />
         </div>
         <div>
-          <label>Contraseña</label>
+          <label>Password</label>
           <input
             type="password"
             value={password}
@@ -41,8 +43,12 @@ const Login = () => {
             required
           />
         </div>
-        <button type="submit">Iniciar Sesión</button>
+        <button type="submit">Login</button>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
+      <button className="secondary-button" onClick={() => navigate('/register')}>
+        ¿No tienes una cuenta? Regístrate
+      </button>
     </div>
   );
 };
