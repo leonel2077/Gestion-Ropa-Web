@@ -19,7 +19,6 @@ const Navbar = ({ isAuthenticated, onLogout }) => {
         <div className="navbar-links">
           {isAuthenticated ? (
             <>
-              <Link to="/home">Home</Link>
               <Link to="/inventory">Inventario</Link>
               <Link to="/sales">Ventas</Link>
               <button onClick={handleLogout} className="logout-button">

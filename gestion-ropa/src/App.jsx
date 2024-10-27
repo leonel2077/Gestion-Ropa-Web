@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import Inventory from './pages/Inventory.jsx';
-import SalesPage from './pages/Sales.jsx'; // Nueva página de ventas
+import SalesPage from './pages/Sales.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
-import Home from './pages/Home';
+import SalesDetails from './pages/SalesDetails.jsx'; // Importar SalesDetails
 import Navbar from './components/Navbar';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [cart, setCart] = useState([]); // Estado para el carrito
 
   const handleLogin = (token) => {
     setIsAuthenticated(true);
@@ -22,15 +23,29 @@ function App() {
     localStorage.removeItem('token');
   };
 
+  const addToCart = (product) => {
+    setCart([...cart, product]);
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <Router>
       <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/home" /> : <Login onLogin={handleLogin} />} />
+        <Route path="/" element={isAuthenticated ? <Navigate to="/inventory" /> : <Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={isAuthenticated ? <Home onLogout={handleLogout} /> : <Navigate to="/" />} />
         <Route path="/inventory" element={isAuthenticated ? <Inventory /> : <Navigate to="/" />} />
-        <Route path="/sales" element={isAuthenticated ? <SalesPage /> : <Navigate to="/" />} /> {/* Nueva ruta */}
+        <Route
+          path="/sales"
+          element={isAuthenticated ? <SalesPage addToCart={addToCart} cart={cart} /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/sales-details"
+          element={isAuthenticated ? <SalesDetails cart={cart} clearCart={clearCart} /> : <Navigate to="/" />}
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

@@ -1,12 +1,14 @@
 // src/pages/Sales.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Sales.css';
 
-const Sales = () => {
-  const [cart, setCart] = useState([]);
+const Sales = ({ addToCart, cart }) => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [products, setProducts] = useState([]); // Estado para almacenar los productos
+  const [quantities, setQuantities] = useState({}); // Estado para almacenar las cantidades de cada producto
+  const navigate = useNavigate();
 
   // Función para obtener productos desde la API
   useEffect(() => {
@@ -22,15 +24,25 @@ const Sales = () => {
     fetchProducts();
   }, []);
 
-  const addToCart = (product) => {
-    setCart([...cart, product]);
+  // Maneja el cambio en la cantidad de cada producto
+  const handleQuantityChange = (productId, quantity) => {
+    setQuantities((prevQuantities) => ({
+      ...prevQuantities,
+      [productId]: quantity,
+    }));
+  };
+
+  // Función para agregar al carrito con la cantidad seleccionada
+  const handleAddToCart = (product) => {
+    const quantity = quantities[product.id] || 1; // Usa la cantidad seleccionada o 1 por defecto
+    addToCart({ ...product, quantity });
   };
 
   return (
     <div className="sales-container">
       <h1>Sistema de Ventas</h1>
       <div className="sales-header">
-        <button className="cart-button">
+        <button className="cart-button" onClick={() => navigate('/sales-details')}>
           🛒 Ver Carrito ({cart.length})
         </button>
         <button className="admin-button" onClick={() => setIsAdminMode(!isAdminMode)}>
@@ -56,9 +68,17 @@ const Sales = () => {
                 <td>{product.name}</td>
                 <td>${product.price}</td>
                 <td>{product.stock}</td>
-                <td><input type="number" defaultValue="1" min="1" max={product.stock} /></td>
                 <td>
-                  <button onClick={() => addToCart(product)}>Agregar al Carrito</button>
+                  <input
+                    type="number"
+                    min="1"
+                    max={product.stock}
+                    value={quantities[product.id] || 1} // Usa el valor almacenado o 1 por defecto
+                    onChange={(e) => handleQuantityChange(product.id, parseInt(e.target.value, 10))}
+                  />
+                </td>
+                <td>
+                  <button onClick={() => handleAddToCart(product)}>Agregar al Carrito</button>
                 </td>
               </tr>
             ))}
