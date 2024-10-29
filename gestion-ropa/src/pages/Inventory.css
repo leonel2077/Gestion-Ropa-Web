@@ -1,13 +1,13 @@
 .inventory-container {
-  padding: 10px; /* Reducir padding superior */
-  max-width: 900px;
+  max-width: 600px;
   margin: auto;
 }
 
 .search-bar {
   margin-bottom: 10px; /* Reducir espacio entre la barra y la lista */
+  margin-right: 30px;
   padding: 10px;
-  width: 100%;
+  width: 50%;
   max-width: 400px;
   font-size: 16px;
 }
@@ -55,4 +55,18 @@
 
 .low-stock {
   background-color: #e74c3c;
+}
+
+.new-product-button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.new-product-button:hover {
+  background-color: #555;
 }

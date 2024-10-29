@@ -1,16 +1,17 @@
-// src/pages/Inventory.jsx
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import api from '../api';
+import { useNavigate } from 'react-router-dom';
 import './Inventory.css';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:4001/api/clothes');
+        const response = await api.get('/clothes');
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products:', error);
@@ -37,6 +38,10 @@ const Inventory = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-bar"
       />
+
+        <button className="new-product-button" onClick={() => navigate('/create-clothes')}>
+          Agregar Prenda
+        </button>
 
       <table className="inventory-table">
         <thead>
