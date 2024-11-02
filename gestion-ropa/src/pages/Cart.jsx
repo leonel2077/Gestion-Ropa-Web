@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './SalesDetails.css';
+import './cart.css';
 
-const SalesDetails = ({ cart, clearCart }) => {
+const Cart = ({ cart, clearCart }) => {
   const [total, setTotal] = useState(0);
   const navigate = useNavigate();
 
@@ -83,4 +83,4 @@ const SalesDetails = ({ cart, clearCart }) => {
   );
 };
 
-export default SalesDetails;
+export default Cart;

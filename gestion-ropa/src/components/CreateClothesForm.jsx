@@ -84,7 +84,7 @@ const CreateClothes = () => {
             </select>
       
             <select name="garmentTypeId" value={formData.garmentTypeId} onChange={handleChange} required>
-              <option value="">Selecciona el tipo </option>
+              <option value="">Selecciona el tipo</option>
               {garmentTypes.map((type) => (
                 <option key={type.id} value={type.id}>
                   {type.name}

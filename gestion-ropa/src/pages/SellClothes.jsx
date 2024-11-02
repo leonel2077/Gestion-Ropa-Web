@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './Sales.css';
+import './sellClothes.css';
 
-const Sales = ({ addToCart, cart }) => {
+const SellClothes = ({ addToCart, cart }) => {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [products, setProducts] = useState([]); // Estado para almacenar los productos
   const [quantities, setQuantities] = useState({}); // Estado para almacenar las cantidades de cada producto
@@ -41,7 +41,7 @@ const Sales = ({ addToCart, cart }) => {
     <div className="sales-container">
       <h1>Sistema de Ventas</h1>
       <div className="sales-header">
-        <button className="cart-button" onClick={() => navigate('/sales-details')}>
+        <button className="cart-button" onClick={() => navigate('/cart')}>
           🛒 Ver Carrito ({cart.length})
         </button>
         <button className="admin-button" onClick={() => setIsAdminMode(!isAdminMode)}>
@@ -88,4 +88,4 @@ const Sales = ({ addToCart, cart }) => {
   );
 };
 
-export default Sales;
+export default SellClothes;

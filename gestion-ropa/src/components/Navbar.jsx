@@ -18,7 +18,8 @@ const Navbar = ({ isAuthenticated, onLogout }) => {
           {isAuthenticated ? (
             <>
               <Link to="/inventory">Inventario</Link>
-              <Link to="/sales">Ventas</Link>
+              <Link to="/sell">Vender</Link>
+              <Link to="/completed-sales">Ventas Completadas</Link>
               <button onClick={handleLogout} className="logout-button">
                 Cerrar sesión
               </button>
