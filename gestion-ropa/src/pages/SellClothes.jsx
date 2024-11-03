@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import './sellClothes.css';
 
 const SellClothes = ({ addToCart, cart }) => {
-  const [isAdminMode, setIsAdminMode] = useState(false);
   const [products, setProducts] = useState([]); // Estado para almacenar los productos
   const [quantities, setQuantities] = useState({}); // Estado para almacenar las cantidades de cada producto
   const navigate = useNavigate();
@@ -43,9 +42,6 @@ const SellClothes = ({ addToCart, cart }) => {
       <div className="sales-header">
         <button className="cart-button" onClick={() => navigate('/cart')}>
           🛒 Ver Carrito ({cart.length})
-        </button>
-        <button className="admin-button" onClick={() => setIsAdminMode(!isAdminMode)}>
-          Modo {isAdminMode ? 'Usuario' : 'Admin'}
         </button>
       </div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import './cart.css';
 
@@ -15,11 +15,7 @@ const Cart = ({ cart, clearCart }) => {
 
   const handleConfirmPurchase = async () => {
     try {
-      const token = localStorage.getItem('token'); // Obtener el token de localStorage
-      const headers = {
-        Authorization: `Bearer ${token}`,
-      };
-  
+
       // Crear `saleDetails` a partir del carrito de compras
       const saleDetails = cart.map((item) => ({
         clothesId: item.id,
@@ -35,15 +31,19 @@ const Cart = ({ cart, clearCart }) => {
       console.log("Sale Details:", saleDetails);
   
       // Realizar la solicitud al backend
-      await axios.post(
-        'http://localhost:4001/api/sales',
+      await api.post(
+        '/sales',
         { totalAmount, saleDetails },
-        { headers }
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        }
       );
   
       alert('Compra confirmada');
-      clearCart(); // Limpia el carrito después de confirmar la compra
-      navigate('/sales'); // Redirige al usuario a la página de ventas
+      clearCart(); 
+      navigate('/completed-sales'); 
   
     } catch (error) {
       // Bloque de manejo de errores detallado
@@ -56,12 +56,11 @@ const Cart = ({ cart, clearCart }) => {
       }
     }
   };
-  
-  
+
 
   return (
     <div className="sales-details-container">
-      <h1>Detalles de la Compra</h1>
+      <h1>Carrito</h1>
       {cart.length === 0 ? (
         <p>No tienes productos en el carrito.</p>
       ) : (
@@ -76,7 +75,7 @@ const Cart = ({ cart, clearCart }) => {
             ))}
           </ul>
           <h2>Total: ${total}</h2>
-          <button onClick={handleConfirmPurchase}>Confirmar Compra</button>
+          <button onClick={handleConfirmPurchase}>Confirmar Venta</button>
         </>
       )}
     </div>

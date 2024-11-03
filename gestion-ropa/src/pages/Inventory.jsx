@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import './inventory.css';
+import { UserContext } from '../context/UserContext';
 
 const Inventory = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
-
+  console.log("Usuario:", user)
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -26,6 +28,19 @@ const Inventory = () => {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDelete = async (id) => {
+    try {
+        await api.delete(`/clothes/${id}`);
+        setProducts(products.filter((item) => item.id !== id)); 
+    } catch (error) {
+        console.error("Error deleting clothes:", error);
+    }
+  };
+
+  const handleEdit = (id) => {
+    navigate(`/clothes/edit/${id}`);
+  };
+
   return (
     <div className="inventory-container">
       <h1>Inventario de Ropa</h1>
@@ -39,9 +54,11 @@ const Inventory = () => {
         className="search-bar"
       />
 
+      {user && user.role === 'admin' && (
         <button className="new-product-button" onClick={() => navigate('/create-clothes')}>
           Agregar Prenda
         </button>
+      )};
 
       <table className="inventory-table">
         <thead>
@@ -50,6 +67,7 @@ const Inventory = () => {
             <th>Color</th>
             <th>Precio</th>
             <th>Stock</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -65,6 +83,24 @@ const Inventory = () => {
                   <span className={`stock-badge ${product.stock <= 20 ? 'low-stock' : ''}`}>
                     {product.stock}
                   </span>
+                </td>
+                <td>
+                  {user?.role === 'admin' && (
+                    <>
+                      <button
+                        className="edit-button"
+                        onClick={() => handleEdit(product.id)}
+                      >
+                        Editar
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Eliminar
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))
