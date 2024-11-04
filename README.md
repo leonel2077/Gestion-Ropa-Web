@@ -23,7 +23,7 @@ Este proyecto es una aplicación web para la gestión de inventario y ventas de 
    git clone git@github.com:leonel2077/Gestion-Ropa-Web.git
    ```
 2. Accede al directorio del proyecto:
-  ```bash
+   ```bash
    cd Gestion-Ropa-Web
    ```
 3. Inicia el servidor del backend (revisar el otro repositorio para su configuración):
@@ -31,7 +31,7 @@ Este proyecto es una aplicación web para la gestión de inventario y ventas de 
    npm start
    ```
 4. En otra terminal, instala las dependencias del frontend:
-  ```bash
+   ```bash
    npm install
    ```
 5. Inicia el servidor del frontend:
