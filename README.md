@@ -41,7 +41,7 @@ Este proyecto es una aplicación web para la gestión de inventario y ventas de 
 
 ## Autores
 
-- **Mariano Leonel Ison**
-- **Geronimo Torres Ortiz**
-- **Lautaro Piacenza**
-- **Mateo Roble**
+- [Mariano Leonel Ison](https://github.com/leonel2077)
+- [Geronimo Torres Ortiz](https://github.com/geronimotorresortiz)
+- [Lautaro Piacenza](https://github.com/lautaropiacenza)
+- [Mateo Roble](https://github.com/MateoRoble)
