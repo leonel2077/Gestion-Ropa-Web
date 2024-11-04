@@ -26,7 +26,7 @@ Este proyecto es una aplicación web para la gestión de inventario y ventas de 
    ```bash
    cd Gestion-Ropa-Web
    ```
-3. Inicia el servidor del backend (revisar el otro repositorio(https://github.com/leonel2077/Gestion-Ropa-API) para su configuración):
+3. Inicia el servidor del backend (revisar el otro [repositorio](https://github.com/leonel2077/Gestion-Ropa-API) para su configuración):
    ```bash
    npm start
    ```
